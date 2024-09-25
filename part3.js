@@ -1,81 +1,20 @@
-let cvsString = `ID,Name, Occupation,Age\n42,Bruce,Knight,41\n57,Bob,Fry Cook,19\n63,Blaine,Quiz Master,58\n98,Bill,Doctor’s Assistant,26`
-
-let cell = ''
-let row = [] // current row and cell datas
-
-// For loop each charac of the CVS string
-for (let i = 0; i < cvsString.length; i++) {
-  let charac = cvsString[i]
-  // move to next cell if  the charac is a comma
-  if (charac === ',') {
-    row.push(cell) // storing the current data
-    cell = '' // Reset for next cell
-  }
-  // Move to the next row if the charac is  the start of a new line
-  else if (charac === '\n') {
-    row.push(cell) // storing
-    console.log(...row) // logging the current row data
-    row = [] // reset the row data for the next one
-    cell = '' // reset the cell data for  the next one
-  }
-  // Else not, append the charac to the current cell
-  else {
-    cell += charac
+function parseCSV(csvString) {
+  let rows = csvString.split('\n'); // Split the string into rows
+  for (let row of rows) {
+    let cells = row.split(','); // Split each row into individual cells by commas
+    if (cells.length === 4) { // Assuming exactly 4 cells per row
+      console.log(cells[0], cells[1], cells[2], cells[3]); // Log each cell in the row
+    } else {
+      console.log(...cells); // If the number of cells isn't 4, log all cells as a fallback
+    }
   }
 }
-
-// Now lets log each row of data
-if (cell !== '') {
-  row.push(cell)
-  console.log(...row)
-}
-
-
-// part 4
-
-// Assuming you now have an array of people from Part 3
-let people = [
-  { id: "42", name: "Bruce", occupation: "Knight", age: "41" },
-  { id: "57", name: "Bob", occupation: "Fry Cook", age: "19" },
-  { id: "63", name: "Blaine", occupation: "Quiz Master", age: "58" },
-  { id: "98", name: "Bill", occupation: "Doctor’s Assistant", age: "26" }
-];
-
-// Step 1: Remove the last element
-people.pop();
-
-// Step 2: Insert new object at index 1
-people.splice(1, 0, { id: "48", name: "Barry", occupation: "Runner", age: "25" });
-
-// Step 3: Add a new object to the end
-people.push({ id: "7", name: "Bilbo", occupation: "None", age: "111" });
-
-// Step 4: Calculate the average age
-let totalAge = 0;
-
-for (let person of people) {
-  totalAge += Number(person.age);  // Convert the age to number
-}
-
-let averageAge = totalAge / people.length;
-console.log("Average Age:", averageAge);
-
-// Output the new array to see the changes
-console.log(people);
-
-
-// Part 5 
-
- // Step 1: Define the CSV header
- let csvHeader = "ID,Name,Occupation,Age\n";
-  
- // Step 2: Convert each object in the array to a CSV row
- let csvRows = people.map(person => {
-   return `${person.id},${person.name},${person.occupation},${person.age}`;
- }).join("\n");
- 
- // Step 3: Combine the header and rows to create the final CSV string
- let finalCSV = csvHeader + csvRows;
- 
- console.log(finalCSV);
- 
+// Example string provided in the question
+let csvString1 = `ID,Name,Occupation,Age\n42,Bruce,Knight,41\n57,Bob,Fry Cook,19\n63,Blaine,Quiz Master,58\n98,Bill,Doctor’s Assistant,26`;
+// Test the function with the first string
+console.log("First CSV Test:");
+parseCSV(csvString1);
+// Test the function with the second string
+let csvString2 = `Index,Mass (kg),Spring 1 (m),Spring 2 (m)\n1,0.00,0.050,0.050\n2,0.49,0.066,0.066\n3,0.98,0.087,0.080\n4,1.47,0.116,0.108\n5,1.96,0.142,0.138\n6,2.45,0.166,0.158\n7,2.94,0.193,0.174\n8,3.43,0.204,0.192\n9,3.92,0.226,0.205\n10,4.41,0.238,0.232`;
+console.log("\nSecond CSV Test:");
+parseCSV(csvString2);
